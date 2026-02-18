@@ -1,0 +1,32 @@
+version: "3.4"
+
+services:
+  php:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./:/opt/app
+    working_dir: /opt/app
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.15
+    ports:
+      - 8080:80
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/opt/app
+
+  db:
+    image: mysql:9.6
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: "test_task"
+      MYSQL_USER: "test_task"
+      MYSQL_PASSWORD: "test_task"
+      MYSQL_ROOT_PASSWORD: "root"
+    volumes:
+      - ./docker/mysql/db_data:/var/lib/mysql
