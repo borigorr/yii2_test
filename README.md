@@ -1,4 +1,4 @@
-#Запуск приложения
+Запуск приложения
 
 1. docker compose up -d
 2.  docker compose exec php composer install
